@@ -1,14 +1,20 @@
-const { ComparePassword, HashingPassword } = require("../../Services/HashData");
+const {
+  ComparePassword,
+  HashPassword,
+  HashingPassword,
+} = require("../../Services/HashData");
 const SupervisorModel = require("../supervisors/SupervisorModel");
 const jwt = require("jsonwebtoken");
 
 const Login = async (req, res) => {
+  console.log("Req", req.body);
   const { email, password } = req.body;
   try {
     const supervisor = await SupervisorModel.findOne({ email });
     if (!supervisor) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+
     // Check If The Password Is Correct
     const IsMatched = await ComparePassword(password, supervisor.password);
 
@@ -25,8 +31,8 @@ const Login = async (req, res) => {
     res
       .status(200)
       .cookie("token", token, {
-        httpOnly: false, // true On Deploy
-        secure: false, // true On Deploy
+        // httpOnly: false, // true On Deploy
+        // secure: false, // true On Deploy
         maxAge: 15 * 60 * 1000, // 15 Minutes
       })
       .json({

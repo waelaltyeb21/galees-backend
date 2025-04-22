@@ -1,7 +1,8 @@
-const LoginRoutes = require("express").Router();
 const { Login, Logout } = require("./loginController");
 
-LoginRoutes.post("/logout", Logout);
+const LoginRoutes = require("express").Router();
+
 LoginRoutes.post("/", Login);
+LoginRoutes.post("/logout", Logout);
 
 module.exports = LoginRoutes;
